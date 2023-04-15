@@ -230,7 +230,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 369617747}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -3.92, z: 0}
+  m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1393985370}
@@ -1114,6 +1114,7 @@ GameObject:
   - component: {fileID: 1393985372}
   - component: {fileID: 1393985371}
   - component: {fileID: 1393985374}
+  - component: {fileID: 1393985375}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -1300,7 +1301,7 @@ MonoBehaviour:
   grappleOrigin: {fileID: 369617748}
   lineRenderer: {fileID: 1393985371}
   rigidbody2D: {fileID: 1393985373}
-  grappleForce: 2
+  grappleForce: 10
 --- !u!50 &1393985373
 Rigidbody2D:
   serializedVersion: 4
@@ -1315,7 +1316,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0.3
-  m_AngularDrag: 0.05
+  m_AngularDrag: 0.5
   m_GravityScale: 0.2
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -1348,6 +1349,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
+--- !u!114 &1393985375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1393985368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10822060f4e53ba42a35bd7227ee73fa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  acceleration: 10
+  turn: 4
+  maxSpeed: 2
 --- !u!1 &1553682589
 GameObject:
   m_ObjectHideFlags: 0
