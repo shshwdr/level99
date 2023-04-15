@@ -9,7 +9,7 @@ public class Grapple : MonoBehaviour
     bool isGrappled = false;
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] Rigidbody2D rigidbody2D;
-    [SerializeField] float grappleForce = 2f;
+    [SerializeField] float grappleForce = 4f;
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +39,7 @@ public class Grapple : MonoBehaviour
             {
                 lineRenderer.SetPositions(new[] { grappleOrigin.position, grapplePoint });
                 lineRenderer.positionCount = 2;
-                rigidbody2D.AddForce(grapplePoint.normalized * grappleForce, ForceMode2D.Force);
+                rigidbody2D.AddForce((grapplePoint - grappleOrigin.position).normalized * grappleForce, ForceMode2D.Force);
             }
         }
         else
