@@ -28,4 +28,9 @@ public class Character : MonoBehaviour
     {
         hoverLeave();
     }
+
+    private void OnMouseDown()
+    {
+        PlayerSkillManager.Instance.mouseClick(this);
+    }
 }

@@ -3,22 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CancelSkillButton : MonoBehaviour
+public class HPBar : MonoBehaviour
 {
+    private int maxHP = 100;
+
+    private int hp = 100;
+    public Image front;
+
+    public void UpdateHP(int _hp)
+    {
+        hp = _hp;
+        front.fillAmount = (float)hp / maxHP;
+    }
+    
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Button>().onClick.AddListener(onClick);
+        
     }
 
     // Update is called once per frame
     void Update()
     {
         
-    }
-
-    public void onClick()
-    {
-        PlayerSkillManager.Instance.UnconnectAll();
     }
 }
