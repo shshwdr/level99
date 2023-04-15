@@ -13,6 +13,11 @@ public class PlayerSkillManager : Singleton<PlayerSkillManager>
         
     }
 
+    public void unconnectSkill(Skill skill)
+    {
+        skill.unconnect();
+        allActiveSkills.Remove(skill);
+    }
     public void UnconnectAll()
     {
         foreach (var skill in allActiveSkills)

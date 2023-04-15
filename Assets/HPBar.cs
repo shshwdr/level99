@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,6 +13,8 @@ public class HPBar : MonoBehaviour
 
     public void UpdateHP(int _hp)
     {
+        
+        
         hp = _hp;
         front.fillAmount = (float)hp / maxHP;
     }

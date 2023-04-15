@@ -19,7 +19,7 @@ public class HealLinkSkill:Skill
         List<Character> res = new List<Character>();
         foreach (var patient in PatientManager.Instance.patients)
         {
-            if (!patient.hasType(typeof(HealLinkSkill)))
+            if (patient.isActive &&  !patient.hasType(typeof(HealLinkSkill)))
             {
                 
                 res.Add(patient);

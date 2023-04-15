@@ -2,17 +2,22 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class Patient : Character
 {
-    private float _hp = 100;
+    private float _hp = 90;
 
     public float hpDecreasePerSecond = 5;
 
     private HPBar _hpBar;
 
     public List<Skill> connectedSkills = new List<Skill>();
+
+    public bool isDead;
+    public bool isRevived;
+    public bool isActive => !isDead && !isRevived;
 
     private void Awake()
     {
@@ -33,24 +38,73 @@ public class Patient : Character
         connectedSkills.Remove(skill);
     }
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isActive)
+        {
+            return;
+        }
         _hp -= hpDecreasePerSecond * Time.deltaTime;
-        _hpBar.UpdateHP((int)_hp);
+        updateHP();
     }
 
 
     public void Heal(float hp)
     {
-        _hp += hp;
+        if (isActive)
+        {
+            _hp += hp;
+            updateHP();
+
+        }
+    }
+
+    void updateHP()
+    {
+        
+        _hp = math.clamp(_hp, 0, 100);
+        if (_hp >= 100)
+        {
+            Revive();
+        }else if (_hp <= 0)
+        {
+            DieForReal();
+        }
         
         _hpBar.UpdateHP((int)_hp);
+    }
+
+    public void Revive()
+    {
+        if (isActive)
+        {
+            isRevived = true;
+            clearSkillsOnIt();
+            FloatingTextManager.Instance.addText("Take a deep breath!", transform.position, Color.white);
+            
+            Destroy(gameObject);
+        }
+    }
+    public void DieForReal()
+    {
+        
+        if (isActive)
+        {
+            isDead = true;
+            clearSkillsOnIt();
+            FloatingTextManager.Instance.addText("Gone for good..", transform.position, Color.white);
+            Destroy(gameObject);
+        }
+    }
+
+    void clearSkillsOnIt()
+    {
+        while(connectedSkills.Count>0)
+        {
+            var skill = connectedSkills[0];
+            PlayerSkillManager.Instance.unconnectSkill(skill);
+        }
     }
 }
