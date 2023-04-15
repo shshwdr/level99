@@ -11,18 +11,45 @@ public class HealLinkSkill:Skill
     private float healTimer = 0;
     public float healAmount = 5;
     private DynamicLine line;
-    
 
-    private void Start()
+    protected override List<Character> canSelectCharacters()
     {
+        List<Character> res = new List<Character>();
+        foreach (var patient in PatientManager.Instance.patients)
+        {
+            if (!patient.hasType(typeof(HealLinkSkill)))
+            {
+                
+                res.Add(patient);
+            }
+        }
+        return res;
+    }
+
+    public override bool init()
+    {
+        if (canSelectCharacters().Count == 0)
+        {
+            FloatingTextManager.Instance.addText("No Available Targe", Vector3.zero, Color.white);
+            return false;
+        }
         var go = Instantiate(Resources.Load<GameObject>("healingLine"),transform);
         line = go.GetComponentInChildren<DynamicLine>();
         line.gameObject.SetActive(false);
+        base.init();
+        return true;
     }
 
     public override void unconnect()
     {
-        Destroy(line);
+        
+        
+        if (currentPatient)
+        {
+            
+            currentPatient.unconnectSkill(this);
+        }
+        Destroy(line.gameObject);
         base.unconnect();
     }
 
@@ -31,16 +58,22 @@ public class HealLinkSkill:Skill
         currentPatient = patient;
     }
 
-    public override void click(Character character)
+    public override bool click(Character character)
     {
-        
-        if (character is Patient patient)
+        base.click(character);
+        if (character is Patient patient && !patient. hasType(typeof(HealLinkSkill)))
         {
+            
+            
             UseSkill(patient);
             line.gameObject.SetActive(true);
             line.startPoint = transform;
             line.endPoint = character.transform;
+            patient.connectSkill(this);
+            return true;
         }
+
+        return false;
     }
     public override void hoverOver(Character character)
     {

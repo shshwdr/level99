@@ -4,7 +4,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class PatientManager : MonoBehaviour
+public class PatientManager : Singleton<PatientManager>
 {
 
     public float generateTime = 3;

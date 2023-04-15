@@ -27,7 +27,14 @@ public class PlayerSkillManager : Singleton<PlayerSkillManager>
             return;
         }
         currentSkill = gameObject.AddComponent<HealLinkSkill>();
-        allActiveSkills.Add(currentSkill);
+        if (currentSkill.init())
+        {
+            allActiveSkills.Add(currentSkill);
+        }
+        else
+        {
+            Destroy(currentSkill);
+        }
     }
     // Update is called once per frame
     void Update()
@@ -46,8 +53,25 @@ public class PlayerSkillManager : Singleton<PlayerSkillManager>
     {
         if (currentSkill != null)
         {
-            currentSkill.click(character);
+            bool succeed = false;
+            if (character != null)
+            {
+                
+                succeed= currentSkill.click(character);
+            }
+            
+            
+            if (succeed)
+            {
+            }
+            else
+            {
+                currentSkill.unconnect();
+                allActiveSkills.Remove(currentSkill);
+            }
+            
             currentSkill = null;
+            
         }
     }
     
