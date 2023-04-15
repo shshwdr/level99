@@ -6,6 +6,7 @@ using UnityEngine;
 
 public abstract class Skill:MonoBehaviour
 {
+    public virtual float costPerSecond { get; }
     public abstract void hoverOver(Character character);
 
     public virtual bool click(Character character)

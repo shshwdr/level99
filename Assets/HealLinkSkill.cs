@@ -12,6 +12,8 @@ public class HealLinkSkill:Skill
     public float healAmount = 5;
     private DynamicLine line;
 
+    public override float costPerSecond => 3;
+
     protected override List<Character> canSelectCharacters()
     {
         List<Character> res = new List<Character>();
