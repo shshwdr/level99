@@ -10,6 +10,7 @@ public class Grapple : MonoBehaviour
     [SerializeField] LineRenderer lineRenderer;
     [SerializeField] Rigidbody2D rigidbody2D;
     [SerializeField] float grappleForce = 4f;
+    [SerializeField] float grappleTurn = 10f;
 
     // Start is called before the first frame update
     void Start()
@@ -39,7 +40,10 @@ public class Grapple : MonoBehaviour
             {
                 lineRenderer.SetPositions(new[] { grappleOrigin.position, grapplePoint });
                 lineRenderer.positionCount = 2;
-                rigidbody2D.AddForce((grapplePoint - grappleOrigin.position).normalized * grappleForce, ForceMode2D.Force);
+                rigidbody2D.AddForce((grapplePoint - grappleOrigin.position).normalized * grappleForce * Time.deltaTime, ForceMode2D.Impulse);
+                /*transform.rotation = Quaternion.Slerp(transform.rotation,
+                                                  Quaternion.LookRotation(Vector3.forward, grapplePoint),
+                                                  grappleTurn * Time.deltaTime);*/
             }
         }
         else

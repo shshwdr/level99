@@ -54,9 +54,6 @@ public class WaterLocomotionController : MonoBehaviour
                                                   Quaternion.LookRotation(Vector3.forward, movement),
                                                   turn * Time.deltaTime);
             rb.velocity = transform.up * rb.velocity.magnitude;
-            Debug.Log($"Velocity: {rb.velocity}");
         }
-
-        Debug.Log($"Velocity: {rb.velocity}");
     }
 }
