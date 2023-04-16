@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5001104213394392186}
   - component: {fileID: 1830508165945267877}
   - component: {fileID: 281806908284460848}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 7477170636233948519}
   - component: {fileID: 9153133543941877241}
   - component: {fileID: 4189677815264666720}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: front
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -160,7 +160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2135248922619430702}
   - component: {fileID: 2135248922619430697}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: viking
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,7 +243,7 @@ GameObject:
   - component: {fileID: 2135248923032304329}
   - component: {fileID: 2135248923032304331}
   - component: {fileID: 2135248923032304328}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: patient
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -281,6 +281,10 @@ MonoBehaviour:
   render: {fileID: 2135248922619430697}
   hpDecreasePerSecond: 5
   connectedSkills: []
+  isDead: 0
+  isRevived: 0
+  isFrozen: 0
+  freezeEffect: {fileID: 0}
 --- !u!61 &2135248923032304328
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -319,7 +323,7 @@ GameObject:
   - component: {fileID: 5244764805415447334}
   - component: {fileID: 8239833856667262067}
   - component: {fileID: 2643132549533904248}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: hpbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -410,7 +414,7 @@ GameObject:
   - component: {fileID: 3974558290995588105}
   - component: {fileID: 1303079769085682362}
   - component: {fileID: 3042431255717614129}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -455,7 +459,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
-  m_SortingLayerID: 0
+  m_SortingLayerID: -1489921973
   m_SortingOrder: 0
   m_TargetDisplay: 0
 --- !u!114 &1303079769085682362

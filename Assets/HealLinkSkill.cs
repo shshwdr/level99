@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 
@@ -11,10 +12,24 @@ public class HealLinkSkill:Skill
     private float healTimer = 0;
     public float healAmount = 5;
     private DynamicLine line;
+    
 
     public override float costPerSecond => 3;
+    public override float range => 20;
 
     protected override List<Character> canSelectCharacters()
+    {
+        List<Character> res = new List<Character>();
+        foreach (var patient in PatientManager.Instance.patients)
+        {
+            if (patient.isActive &&  !patient.hasType(typeof(HealLinkSkill))&& Vector3.Distance( patient.transform.position,PlayerSkillManager.Instance.transform.position)<range)
+            {
+                
+                res.Add(patient);
+            }
+        }
+        return res;
+    }protected override List<Character> canSelectCharactersRoughly()
     {
         List<Character> res = new List<Character>();
         foreach (var patient in PatientManager.Instance.patients)
@@ -27,10 +42,12 @@ public class HealLinkSkill:Skill
         }
         return res;
     }
+    
+    
 
     public override bool init()
     {
-        if (canSelectCharacters().Count == 0)
+        if (canSelectCharactersRoughly().Count == 0)
         {
             FloatingTextManager.Instance.addText("No Available Targe", Vector3.zero, Color.white);
             return false;
@@ -63,9 +80,9 @@ public class HealLinkSkill:Skill
     public override bool click(Character character)
     {
         base.click(character);
-        if (character is Patient patient && !patient. hasType(typeof(HealLinkSkill)))
+        if (canSelectCharacters().Contains(character) )
         {
-            
+            var patient = character as Patient;
             
             UseSkill(patient);
             line.gameObject.SetActive(true);
@@ -79,14 +96,15 @@ public class HealLinkSkill:Skill
     }
     public override void hoverOver(Character character)
     {
-        if (character is Patient)
+        if (canSelectCharacters().Contains(character))
         {
             character.hoverOver();
         }
     }
 
-    void Update()
+     protected override void Update()
     {
+        base.Update();
         if (currentPatient)
         {
             

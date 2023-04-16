@@ -7,6 +7,8 @@ public class PlayerSkillManager : Singleton<PlayerSkillManager>
     private List<Skill> allActiveSkills = new List<Skill>();
     public List<Skill> GetAllActiveSkills => allActiveSkills;
     private Skill currentSkill;
+
+    public Transform rangeObject;
     // Start is called before the first frame update
     void Start()
     {

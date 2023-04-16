@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Mathematics;
 using UnityEngine;
+using Random = UnityEngine.Random;
+
 
 public class Patient : Character
 {
@@ -17,11 +19,37 @@ public class Patient : Character
 
     public bool isDead;
     public bool isRevived;
-    public bool isActive => !isDead && !isRevived;
+    public bool isActive => !isDead && !isRevived && !isFrozen;
 
+    public bool isFrozen = false;
+
+    public GameObject freezeEffect;
+
+    public void freeze()
+    {
+        if (!isActive)
+        {
+            return;
+        }
+
+        isFrozen = true;
+        freezeEffect.SetActive(true);
+    }
+    
+    public void unfreeze()
+    {
+        if (!isFrozen)
+        {
+            return;
+        }
+
+        isFrozen = false;
+        freezeEffect.SetActive(false);
+    }
     private void Awake()
     {
         _hpBar = GetComponentInChildren<HPBar>();
+        _hp = Random.Range(50, 90);
     }
 
     public bool hasType(Type skillType)
@@ -85,6 +113,7 @@ public class Patient : Character
             FloatingTextManager.Instance.addText("Take a deep breath!", transform.position, Color.white);
             
             Destroy(gameObject);
+            BattleManager.Instance.addRecoveredCount();
         }
     }
     public void DieForReal()
@@ -96,11 +125,13 @@ public class Patient : Character
             clearSkillsOnIt();
             FloatingTextManager.Instance.addText("Gone for good..", transform.position, Color.white);
             Destroy(gameObject);
+            BattleManager.Instance.addDiedCount();
         }
     }
 
     void clearSkillsOnIt()
     {
+        PatientManager.Instance.removePatient(this);
         while(connectedSkills.Count>0)
         {
             var skill = connectedSkills[0];

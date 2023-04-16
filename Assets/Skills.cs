@@ -7,11 +7,13 @@ using UnityEngine;
 public abstract class Skill:MonoBehaviour
 {
     public virtual float costPerSecond { get; }
+    public virtual float range { get; }
     public abstract void hoverOver(Character character);
 
     public virtual bool click(Character character)
     {
         clearSelectPreview();
+        PlayerSkillManager.Instance.rangeObject.localScale = Vector3.zero;
         return true;
     }
 
@@ -30,6 +32,7 @@ public abstract class Skill:MonoBehaviour
     }
 
     protected abstract List<Character> canSelectCharacters();
+    protected abstract List<Character> canSelectCharactersRoughly();
 
 
     public virtual bool init()
@@ -39,10 +42,20 @@ public abstract class Skill:MonoBehaviour
         {
             patient.showCanSelect();
         }
-
+        PlayerSkillManager.Instance.rangeObject.localScale = Vector3.one*range*2;
         return true;
     }
 
-
+    protected virtual void Update()
+    {
+        foreach (var patient in PatientManager.Instance.patients)
+        {
+            patient.stopCanSelect();
+        }
+        foreach (var patient in canSelectCharacters())
+        {
+            patient.showCanSelect();
+        }
+    }
 }
 

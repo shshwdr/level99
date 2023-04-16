@@ -14,7 +14,7 @@ public class MouseController : MonoBehaviour
         {
             Vector2 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            Collider2D[] hitColliders = Physics2D.OverlapPointAll(clickPos);
+            Collider2D[] hitColliders = Physics2D.OverlapPointAll(clickPos, clickLayerMask);
 
             if (hitColliders.Length > 0)
             {
