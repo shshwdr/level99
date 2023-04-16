@@ -280,7 +280,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   render: {fileID: 2135248922619430697}
-  hpDecreasePerSecond: 1
+  hpDecreasePerSecond: 5
   connectedSkills: []
   isDead: 0
   isRevived: 0
