@@ -8,6 +8,8 @@ public abstract class Skill:MonoBehaviour
 {
     public virtual float costPerSecond { get; }
     public virtual float range { get; }
+    public bool isSelecting;
+    
 
     public virtual void hoverOver(Character character)
     {
@@ -21,6 +23,7 @@ public abstract class Skill:MonoBehaviour
     public virtual bool click(Character character)
     {
         clearSelectPreview();
+        isSelecting = false;
         return true;
     }
 
@@ -78,13 +81,17 @@ public abstract class Skill:MonoBehaviour
 
     protected virtual void Update()
     {
-        foreach (var patient in PatientManager.Instance.patients)
+        if (isSelecting)
         {
-            patient.stopCanSelect();
-        }
-        foreach (var patient in canSelectCharacters())
-        {
-            patient.showCanSelect();
+            
+            foreach (var patient in PatientManager.Instance.patients)
+            {
+                patient.stopCanSelect();
+            }
+            foreach (var patient in canSelectCharacters())
+            {
+                patient.showCanSelect();
+            }
         }
     }
 }

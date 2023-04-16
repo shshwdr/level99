@@ -10,7 +10,7 @@ public class HealLinkSkill:Skill
     private Patient currentPatient;
     public float HealTime = 0.5f;
     private float healTimer = 0;
-    public float healAmount = 5;
+    public float healAmount = 4;
     private DynamicLine line;
     
 

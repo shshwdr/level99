@@ -27,10 +27,20 @@ public class PlayerBreathController : Singleton<PlayerBreathController>
     public void decreaseBreath(float value)
     {
         _hp -= value;
-        _hp = math.clamp(_hp, 0, 100);
-        updateBreathBar();
+        updateHP();
     }
 
+    void updateHP()
+    {
+        
+        _hp = math.clamp(_hp, 0, 100);
+        if (_hp <= 0)
+        {
+            BattleManager.Instance.outOfBreath();
+        }
+        
+        updateBreathBar();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -46,7 +56,6 @@ public class PlayerBreathController : Singleton<PlayerBreathController>
             _hp += Time.deltaTime * hpIncreasePerSecond;
         }
 
-        _hp = math.clamp(_hp, 0, 100);
-        updateBreathBar();
+        updateHP();
     }
 }
