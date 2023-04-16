@@ -86,8 +86,8 @@ public class HealLinkSkill:Skill
             
             UseSkill(patient);
             line.gameObject.SetActive(true);
-            line.startPoint = transform;
-            line.endPoint = character.transform;
+            line.startTransform = transform;
+            line.endTransform = character.transform;
             patient.connectSkill(this);
             return true;
         }
@@ -113,6 +113,19 @@ public class HealLinkSkill:Skill
             {
                 currentPatient.Heal(healAmount);
                 healTimer = 0;
+            }
+
+            var distance = Vector3.Distance(currentPatient.transform.position,
+                PlayerSkillManager.Instance.transform.position);
+            float startShakingRange = 0.5f;
+            if ( distance> range * startShakingRange)
+            {
+                line.Shake( 1 - (range - distance )/(range*(1-startShakingRange))) ;
+            }
+
+            if (distance > range)
+            {
+                PlayerSkillManager.Instance.unconnectSkill(this);
             }
         }
     }

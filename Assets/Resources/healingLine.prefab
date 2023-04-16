@@ -69,8 +69,8 @@ LineRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1489921973
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Positions:
   - {x: 0, y: 0, z: 0}
@@ -142,5 +142,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 427cf62ceb7a0da478acf9689879c9d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startPoint: {fileID: 0}
-  endPoint: {fileID: 0}
+  startTransform: {fileID: 0}
+  endTransform: {fileID: 0}
+  lineRenderer: {fileID: 0}
+  shakeDuration: 1
+  shakeMagnitude: 2
+  numPoints: 10
