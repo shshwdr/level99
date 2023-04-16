@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class MouseController : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class MouseController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            if (EventSystem.current.IsPointerOverGameObject())
+            {
+                return;
+            }
             Vector2 clickPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             Collider2D[] hitColliders = Physics2D.OverlapPointAll(clickPos, clickLayerMask);
@@ -40,6 +45,7 @@ public class MouseController : MonoBehaviour
                 }
             }
             PlayerSkillManager.Instance.mouseClick(null);
+            
         }
     }
 }

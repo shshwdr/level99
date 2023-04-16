@@ -17,31 +17,7 @@ public class HealLinkSkill:Skill
     public override float costPerSecond => 3;
     public override float range => 20;
 
-    protected override List<Character> canSelectCharacters()
-    {
-        List<Character> res = new List<Character>();
-        foreach (var patient in PatientManager.Instance.patients)
-        {
-            if (patient.isActive &&  !patient.hasType(typeof(HealLinkSkill))&& Vector3.Distance( patient.transform.position,PlayerSkillManager.Instance.transform.position)<range)
-            {
-                
-                res.Add(patient);
-            }
-        }
-        return res;
-    }protected override List<Character> canSelectCharactersRoughly()
-    {
-        List<Character> res = new List<Character>();
-        foreach (var patient in PatientManager.Instance.patients)
-        {
-            if (patient.isActive &&  !patient.hasType(typeof(HealLinkSkill)))
-            {
-                
-                res.Add(patient);
-            }
-        }
-        return res;
-    }
+    
     
     
 
@@ -93,13 +69,6 @@ public class HealLinkSkill:Skill
         }
 
         return false;
-    }
-    public override void hoverOver(Character character)
-    {
-        if (canSelectCharacters().Contains(character))
-        {
-            character.hoverOver();
-        }
     }
 
      protected override void Update()

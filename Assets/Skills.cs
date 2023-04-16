@@ -8,12 +8,19 @@ public abstract class Skill:MonoBehaviour
 {
     public virtual float costPerSecond { get; }
     public virtual float range { get; }
-    public abstract void hoverOver(Character character);
+
+    public virtual void hoverOver(Character character)
+    {
+        
+        if (canSelectCharacters().Contains(character))
+        {
+            character.hoverOver();
+        }
+    }
 
     public virtual bool click(Character character)
     {
         clearSelectPreview();
-        PlayerSkillManager.Instance.rangeObject.localScale = Vector3.zero;
         return true;
     }
 
@@ -31,9 +38,32 @@ public abstract class Skill:MonoBehaviour
         Destroy(this);
     }
 
-    protected abstract List<Character> canSelectCharacters();
-    protected abstract List<Character> canSelectCharactersRoughly();
-
+    protected virtual List<Character> canSelectCharacters()
+    {
+        List<Character> res = new List<Character>();
+        foreach (var patient in PatientManager.Instance.patients)
+        {
+            if (patient.isActive &&  !patient.hasType(typeof(HealLinkSkill))&& Vector3.Distance( patient.transform.position,PlayerSkillManager.Instance.transform.position)<range)
+            {
+                
+                res.Add(patient);
+            }
+        }
+        return res;
+    }
+    protected virtual List<Character> canSelectCharactersRoughly()
+    {
+        List<Character> res = new List<Character>();
+        foreach (var patient in PatientManager.Instance.patients)
+        {
+            if (patient.isActive &&  !patient.hasType(typeof(HealLinkSkill)))
+            {
+                
+                res.Add(patient);
+            }
+        }
+        return res;
+    }
 
     public virtual bool init()
     {

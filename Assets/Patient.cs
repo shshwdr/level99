@@ -23,7 +23,7 @@ public class Patient : Character
 
     public bool isFrozen = false;
 
-    public GameObject freezeEffect;
+    public FreezeEffect freezeEffect;
 
     public void freeze()
     {
@@ -33,7 +33,7 @@ public class Patient : Character
         }
 
         isFrozen = true;
-        freezeEffect.SetActive(true);
+        freezeEffect.init();
     }
     
     public void unfreeze()
@@ -44,7 +44,6 @@ public class Patient : Character
         }
 
         isFrozen = false;
-        freezeEffect.SetActive(false);
     }
     private void Awake()
     {

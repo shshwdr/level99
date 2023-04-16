@@ -5,7 +5,10 @@ using UnityEngine.UI;
 
 public enum SkillType
 {
-    healLink
+    healLink,
+    freeze,
+    grab,
+    healRange,
 };
 public class SkillButton : MonoBehaviour
 {

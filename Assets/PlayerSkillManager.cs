@@ -34,7 +34,22 @@ public class PlayerSkillManager : Singleton<PlayerSkillManager>
         {
             return;
         }
-        currentSkill = gameObject.AddComponent<HealLinkSkill>();
+
+        switch (type)
+        {
+            case SkillType.healLink:
+                
+                currentSkill = gameObject.AddComponent<HealLinkSkill>();
+                break;
+            case SkillType.freeze:
+                
+                currentSkill = gameObject.AddComponent<FreezeSkill>();
+                break;
+            case SkillType.grab:
+                break;
+            case SkillType.healRange:
+                break;
+        }
         if (currentSkill.init())
         {
             allActiveSkills.Add(currentSkill);
@@ -79,6 +94,8 @@ public class PlayerSkillManager : Singleton<PlayerSkillManager>
             }
             
             currentSkill = null;
+            
+            PlayerSkillManager.Instance.rangeObject.localScale = Vector3.zero;
             
         }
     }

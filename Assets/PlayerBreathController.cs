@@ -4,7 +4,7 @@ using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerBreathController : MonoBehaviour
+public class PlayerBreathController : Singleton<PlayerBreathController>
 {
     private float maxHP = 100;
 
@@ -22,6 +22,13 @@ public class PlayerBreathController : MonoBehaviour
     void Start()
     {
         
+    }
+
+    public void decreaseBreath(float value)
+    {
+        _hp -= value;
+        _hp = math.clamp(_hp, 0, 100);
+        updateBreathBar();
     }
 
     // Update is called once per frame
