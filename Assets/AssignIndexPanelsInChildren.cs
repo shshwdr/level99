@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SkillButton : MonoBehaviour
+public class AssignIndexPanelsInChildren : MonoBehaviour
 {
-    public SkillType type;
-    
     // Start is called before the first frame update
     void Start()
     {
-        GetComponent<Button>().onClick.AddListener(() =>
+        
+        int i = 1;
+        foreach (var panel in GetComponentsInChildren<IndexPanel>())
         {
-            PlayerSkillManager.Instance.ClickOnSkill(type);
-        });
+            panel.GetComponentInChildren<Text>().text = i.ToString();
+            i++;
+        }
     }
 
     // Update is called once per frame

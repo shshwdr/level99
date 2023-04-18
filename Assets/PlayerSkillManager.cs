@@ -1,7 +1,15 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum SkillType
+{
+    healLink,
+    freeze,
+    //grab,
+    //healRange,
+};
 public class PlayerSkillManager : Singleton<PlayerSkillManager>
 {
     private List<Skill> allActiveSkills = new List<Skill>();
@@ -45,10 +53,10 @@ public class PlayerSkillManager : Singleton<PlayerSkillManager>
                 
                 currentSkill = gameObject.AddComponent<FreezeSkill>();
                 break;
-            case SkillType.grab:
-                break;
-            case SkillType.healRange:
-                break;
+            // case SkillType.grab:
+            //     break;
+            // case SkillType.healRange:
+            //     break;
         }
         if (currentSkill.init())
         {
@@ -62,7 +70,17 @@ public class PlayerSkillManager : Singleton<PlayerSkillManager>
     // Update is called once per frame
     void Update()
     {
-        
+        for (int i = 0; i < Enum.GetValues(typeof(SkillType)).Length; i++)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha0 + i + 1))
+            {
+                ClickOnSkill((SkillType)(i));
+            }
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha0 + Enum.GetValues(typeof(SkillType)).Length + 1))
+        {
+            UnconnectAll();
+        }
     }
 
     public void mouseEnter(Character character)
