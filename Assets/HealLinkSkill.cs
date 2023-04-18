@@ -47,20 +47,20 @@ public class HealLinkSkill:Skill
         Destroy(line.gameObject);
         base.unconnect();
     }
-
-    public void UseSkill(Patient patient)
+    
+    protected override bool skillSpecialCondition(Patient patient)
     {
-        currentPatient = patient;
+        return !patient.hasType(typeof(HealLinkSkill));
     }
-
-    public override bool click(Character character)
+    
+    public override bool mouseDown(Character character)
     {
-        base.click(character);
+        base.mouseDown(character);
         if (canSelectCharacters().Contains(character) )
         {
             var patient = character as Patient;
             
-            UseSkill(patient);
+            currentPatient = patient;
             line.gameObject.SetActive(true);
             line.startTransform = transform;
             line.endTransform = character.transform;

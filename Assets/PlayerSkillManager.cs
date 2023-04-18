@@ -7,7 +7,7 @@ public enum SkillType
 {
     healLink,
     freeze,
-    //grab,
+    grab,
     //healRange,
 };
 public class PlayerSkillManager : Singleton<PlayerSkillManager>
@@ -53,8 +53,9 @@ public class PlayerSkillManager : Singleton<PlayerSkillManager>
                 
                 currentSkill = gameObject.AddComponent<FreezeSkill>();
                 break;
-            // case SkillType.grab:
-            //     break;
+            case SkillType.grab:
+                currentSkill = gameObject.AddComponent<GrabSkill>();
+                 break;
             // case SkillType.healRange:
             //     break;
         }
@@ -90,7 +91,7 @@ public class PlayerSkillManager : Singleton<PlayerSkillManager>
             currentSkill.hoverOver(character);
         }
     }
-    public void mouseClick(Character character)
+    public void mouseDown(Character character)
     {
         if (currentSkill != null)
         {
@@ -98,7 +99,7 @@ public class PlayerSkillManager : Singleton<PlayerSkillManager>
             if (character != null)
             {
                 
-                succeed= currentSkill.click(character);
+                succeed= currentSkill.mouseDown(character);
             }
             
             
@@ -117,5 +118,6 @@ public class PlayerSkillManager : Singleton<PlayerSkillManager>
             
         }
     }
+
     
 }

@@ -22,6 +22,7 @@ public class PatientManager : Singleton<PatientManager>
     void Start()
     {
         generatePatient();
+        generatePatient();
     }
 
     // void generatePatient()

@@ -20,7 +20,7 @@ public abstract class Skill:MonoBehaviour
         }
     }
 
-    public virtual bool click(Character character)
+    public virtual bool mouseDown(Character character)
     {
         clearSelectPreview();
         isSelecting = false;
@@ -41,12 +41,16 @@ public abstract class Skill:MonoBehaviour
         Destroy(this);
     }
 
+    protected virtual bool skillSpecialCondition(Patient patient)
+    {
+        return true;
+    }
     protected virtual List<Character> canSelectCharacters()
     {
         List<Character> res = new List<Character>();
         foreach (var patient in PatientManager.Instance.patients)
         {
-            if (patient.isActive &&  !patient.hasType(typeof(HealLinkSkill))&& Vector3.Distance( patient.transform.position,PlayerSkillManager.Instance.transform.position)<range)
+            if (patient.isActive &&  skillSpecialCondition(patient)&& Vector3.Distance( patient.transform.position,PlayerSkillManager.Instance.transform.position)<range)
             {
                 
                 res.Add(patient);

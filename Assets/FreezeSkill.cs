@@ -8,22 +8,15 @@ public class FreezeSkill : Skill
     public override float costPerSecond => 10;
     public float cost => 10;
     public override float range => 15;
-    public void UseSkill(Patient patient)
+    public override bool mouseDown(Character character)
     {
-        //currentPatient = patient;
-        
-        PlayerSkillManager.Instance.unconnectSkill(this);
-        PlayerBreathController.Instance.decreaseBreath(cost);
-    }
-
-    public override bool click(Character character)
-    {
-        base.click(character);
+        base.mouseDown(character);
         if (canSelectCharacters().Contains(character) )
         {
             var patient = character as Patient;
             
-            UseSkill(patient);
+            PlayerSkillManager.Instance.unconnectSkill(this);
+            PlayerBreathController.Instance.decreaseBreath(cost);
             patient.freeze();
             return true;
         }

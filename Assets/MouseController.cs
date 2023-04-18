@@ -39,12 +39,12 @@ public class MouseController : MonoBehaviour
 
                 if (closestCollider != null)
                 {
-                    PlayerSkillManager.Instance.mouseClick(closestCollider.GetComponent<Character>());
+                    PlayerSkillManager.Instance.mouseDown(closestCollider.GetComponent<Character>());
                     return;
                     // Do something with the closest clicked collider
                 }
             }
-            PlayerSkillManager.Instance.mouseClick(null);
+            PlayerSkillManager.Instance.mouseDown(null);
             
         }
     }
