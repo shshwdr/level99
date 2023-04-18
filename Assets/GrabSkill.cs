@@ -6,20 +6,28 @@ using UnityEngine.PlayerLoop;
 public class GrabSkill : Skill
 {
     
-    private Patient currentPatient;
+    private Character currentPatient;
     public override float costPerSecond => 15;
     public override float range => 30;
-    
-    
+
+    protected override List<Character> canSelectCharacters()
+    {
+        var res = base.canSelectCharacters();
+        foreach (var elf in GameObject.FindObjectsOfType<Elf>())
+        {
+            
+            res.Add(elf);
+        }
+
+        return res;
+    }
+
     public override bool mouseDown(Character character)
     {
         base.mouseDown(character);
         if (canSelectCharacters().Contains(character) )
         {
-            var patient = character as Patient;
-            
-            currentPatient = patient;
-            patient.connectSkill(this);
+            currentPatient = character;
             return true;
         }
 

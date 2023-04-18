@@ -8,6 +8,7 @@ public enum SkillType
     healLink,
     freeze,
     grab,
+    healingElf,
     //healRange,
 };
 public class PlayerSkillManager : Singleton<PlayerSkillManager>
@@ -55,7 +56,10 @@ public class PlayerSkillManager : Singleton<PlayerSkillManager>
                 break;
             case SkillType.grab:
                 currentSkill = gameObject.AddComponent<GrabSkill>();
-                 break;
+                break;
+            case SkillType.healingElf:
+                currentSkill = gameObject.AddComponent<CreateElfSkill>();
+                break;
             // case SkillType.healRange:
             //     break;
         }
