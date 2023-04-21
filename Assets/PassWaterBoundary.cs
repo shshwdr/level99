@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static BoundaryTrigger;
 
 public class PassWaterBoundary : MonoBehaviour
 {
-    [SerializeField] WaterLocomotionController waterLocomotionController;
-    [SerializeField] GroundPlayerController groundPlayerController;
-    [SerializeField] Rigidbody2D rb;
+    WaterLocomotionController waterLocomotionController;
+    GroundPlayerController groundPlayerController;
+    Rigidbody2D rb;
     [SerializeField]  private float waterGravityScale = .2f;
     [SerializeField] private float landGravityScale = 1f;
 
@@ -17,8 +18,6 @@ public class PassWaterBoundary : MonoBehaviour
         waterLocomotionController = GetComponent<WaterLocomotionController>();
         groundPlayerController = GetComponent<GroundPlayerController>();
         rb = GetComponent<Rigidbody2D>();
-
-
     }
 
     // Update is called once per frame
@@ -27,11 +26,47 @@ public class PassWaterBoundary : MonoBehaviour
         
     }
 
+    BoundaryTriggerType firstTrigger;
+    bool firstTriggerEntered = false;
+    bool secondTriggerEntered = false;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.GetComponent<WaterBoundaryTrigger>() != null)
+        BoundaryTrigger trigger = collision.GetComponent<BoundaryTrigger>();
+        if (trigger != null)
         {
-            toggleLandWaterState();
+            if (firstTrigger == BoundaryTriggerType.NONE)
+            {
+                firstTrigger = trigger.type;
+                firstTriggerEntered = true;
+            }
+            else
+            {
+                secondTriggerEntered = true;
+            }
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        BoundaryTrigger trigger = collision.GetComponent<BoundaryTrigger>();
+        if (trigger != null)
+        {
+            if (firstTrigger == trigger.type)
+            {
+                firstTriggerEntered = false;
+            }
+            else 
+            {
+                secondTriggerEntered = false;
+
+                if (firstTriggerEntered == false)
+                {
+                    //we have crossed successfully
+                    firstTrigger = BoundaryTriggerType.NONE;
+                    toggleLandWaterState();
+                    Debug.Log("Switched land and sea!");
+                }
+            }
         }
     }
 

@@ -49,6 +49,7 @@ public class Grapple : MonoBehaviour
         else
         {
             isGrappled = false;
+            lineRenderer.positionCount = 0;
         }
         
     }
