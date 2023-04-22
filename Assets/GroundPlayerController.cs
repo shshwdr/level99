@@ -32,4 +32,9 @@ public class GroundPlayerController : MonoBehaviour
             isGrounded = false; // Player is no longer grounded
         }
     }
+
+    public void Activate()
+    {
+
+    }
 }

@@ -27,6 +27,7 @@ public class PassWaterBoundary : MonoBehaviour
     }
 
     BoundaryTriggerType firstTrigger;
+    BoundaryTriggerType secondTrigger;
     bool firstTriggerEntered = false;
     bool secondTriggerEntered = false;
     private void OnTriggerEnter2D(Collider2D collision)
@@ -41,6 +42,7 @@ public class PassWaterBoundary : MonoBehaviour
             }
             else
             {
+                secondTrigger = trigger.type;
                 secondTriggerEntered = true;
             }
         }
@@ -62,26 +64,30 @@ public class PassWaterBoundary : MonoBehaviour
                 if (firstTriggerEntered == false)
                 {
                     //we have crossed successfully
-                    firstTrigger = BoundaryTriggerType.NONE;
-                    toggleLandWaterState();
+                    setLandWaterState(secondTrigger);
                     Debug.Log("Switched land and sea!");
                 }
+
+                secondTrigger = BoundaryTriggerType.NONE;
             }
         }
     }
 
-    private void toggleLandWaterState()
+    private void setLandWaterState(BoundaryTriggerType state)
     {
-        waterLocomotionController.enabled = !waterLocomotionController.enabled;
-        groundPlayerController.enabled = !groundPlayerController.enabled;
+        waterLocomotionController.enabled = state == BoundaryTriggerType.WATER;
+        groundPlayerController.enabled = state == BoundaryTriggerType.AIR;
         
-        if (waterLocomotionController.enabled == true)
+        if (state == BoundaryTriggerType.WATER)
         {
             rb.gravityScale = waterGravityScale;
+            GetComponent<BreathControl>().startBreathHold(); 
         }
         else
         {
             rb.gravityScale = landGravityScale;
+            GetComponent<BreathControl>().stopBreathHold();
+
         }
     }
 }
