@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BreathControl : MonoBehaviour
 {
@@ -37,11 +38,11 @@ public class BreathControl : MonoBehaviour
     {
         Debug.Log("Death! :(");
 
-
+        ResetBreath();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         //restrict player input
         //death animation
         //vignette camera
-        ResetBreath();
     }
 
     private void ResetBreath()
