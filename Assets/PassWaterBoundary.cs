@@ -81,12 +81,16 @@ public class PassWaterBoundary : MonoBehaviour
         if (state == BoundaryTriggerType.WATER)
         {
             rb.gravityScale = waterGravityScale;
-            GetComponent<BreathControl>().startBreathHold(); 
+            GetComponent<BreathControl>().startBreathHold();
+            AudioManager.Instance.SetUrgency(25);
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.submerge, gameObject.transform.position);
         }
         else
         {
             rb.gravityScale = landGravityScale;
             GetComponent<BreathControl>().stopBreathHold();
+            AudioManager.Instance.SetUrgency(0);
+            AudioManager.Instance.PlayOneShot(FMODEvents.Instance.emerge, gameObject.transform.position);
 
         }
     }

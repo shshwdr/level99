@@ -17,12 +17,23 @@ public class AudioManager : Singleton<AudioManager>
 
     private Bus masterBus;
     private Bus musicBus;
+
+    
+    private float maxSwimVelocity = 10f;
+    public void SetSwimVelocity(float value)
+    {
+        //Debug.Log(Math.Min(value / maxSwimVelocity, 1) * 100);
+        swimBubbleInstance.setParameterByName("swim_velocity", Math.Min(value / maxSwimVelocity, 1) * 100); ;
+    }
+
     private Bus sfxBus;
 
     private List<EventInstance> eventInstances;
     private List<StudioEventEmitter> eventEmitters;
 
     private EventInstance musicEventInstance;
+
+    private EventInstance swimBubbleInstance;
     LevelTheme currentLevelTheme = LevelTheme.MAIN_MENU;
 
     override protected void Awake()
@@ -51,6 +62,7 @@ public class AudioManager : Singleton<AudioManager>
     private void Start()
     {
         InitializeMusic();
+        InitializeVelocitySFX();
     }
 
     private void Update()
@@ -65,6 +77,11 @@ public class AudioManager : Singleton<AudioManager>
         }
     }
 
+    private void InitializeVelocitySFX()
+    {
+        swimBubbleInstance = CreateInstance(FMODEvents.Instance.swim_bubbles);
+        FMOD.RESULT result = swimBubbleInstance.start();
+    }
 
     private void InitializeMusic()
     {
@@ -194,4 +211,10 @@ public class AudioManager : Singleton<AudioManager>
         //play death stinger
         //PlayOneShot(FMODEvents.Instance.music_death_stinger, new Vector3(0, 0, 0));
     }
+
+    public void SetUrgency(float value)
+    {
+        musicEventInstance.setParameterByName("urgency", value);
+    }
+
 }

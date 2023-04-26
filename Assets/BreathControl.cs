@@ -3,20 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using MoreMountains.Feedbacks;
 
 public class BreathControl : MonoBehaviour
 {
-    public float currentBreathSeconds = 15;
+    public float currentBreathSeconds = 20;
     public bool isHoldingBreath = false;
     private float breathDecayRate = 1f;
-    private float maxBreathSeconds = 15;
-    private float firstWarningTimeDuration = 4f;
-    private float lastWarningTimeDuration = 4f;
+    private float maxBreathSeconds = 20;
+    private float firstWarningTimeDuration = 6f;
+    private float lastWarningTimeDuration = 6f;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        ResetBreath();
     }
 
     // Update is called once per frame
@@ -37,12 +38,23 @@ public class BreathControl : MonoBehaviour
     private void Die()
     {
         Debug.Log("Death! :(");
+        AudioManager.Instance.SetUrgency(100);
 
-        ResetBreath();
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        StartCoroutine(ResetLevel());
+        GetComponent<WaterLocomotionController>().setMovementRestriction(true);
         //restrict player input
         //death animation
         //vignette camera
+    }
+
+    private IEnumerator ResetLevel()
+    {
+        yield return new WaitForSeconds(3);
+
+
+        ResetBreath();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        GetComponent<WaterLocomotionController>().setMovementRestriction(false);
     }
 
     private void ResetBreath()
@@ -50,6 +62,7 @@ public class BreathControl : MonoBehaviour
         currentBreathSeconds = maxBreathSeconds;
         isFirstWarningGiven = false;
         isLastWarningGiven = false;
+        GetComponent<MMF_Player>().StopFeedbacks();
     }
 
     private void UpdateUI()
@@ -62,14 +75,21 @@ public class BreathControl : MonoBehaviour
     private void HandleHoldBreathUpdate()
     {
         currentBreathSeconds -= breathDecayRate * Time.deltaTime;
-        if (!isFirstWarningGiven && currentBreathSeconds - lastWarningTimeDuration < 0)
+        //Debug.Log($"Breath: {currentBreathSeconds}");
+        if (!isFirstWarningGiven && currentBreathSeconds < (lastWarningTimeDuration + firstWarningTimeDuration))
         {
             isFirstWarningGiven = true;
             Debug.Log("I should hurry");
-        } else if( currentBreathSeconds - lastWarningTimeDuration - firstWarningTimeDuration < 0)
+            AudioManager.Instance.SetUrgency(50);
+
+        }
+        else if(!isLastWarningGiven && currentBreathSeconds < lastWarningTimeDuration)
         {
             isLastWarningGiven = true;
             Debug.Log("Prolly gonna die soon.");
+            AudioManager.Instance.SetUrgency(75);
+            GetComponent<MMF_Player>().PlayFeedbacks();
+            
         }
     }
 

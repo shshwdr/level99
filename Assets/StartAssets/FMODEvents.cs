@@ -11,9 +11,13 @@ public class FMODEvents : Singleton<FMODEvents>
     [field: SerializeField] public List<EventReference> musicPlaylist { get; private set; }
 
     [field: Header("SFX")]
+    [field: SerializeField] public EventReference submerge { get; private set; }
+    [field: SerializeField] public EventReference emerge { get; private set; }
+    [field: SerializeField] public EventReference swim_bubbles { get; private set; }
     //[field: SerializeField] public EventReference ui_click { get; private set; }
 
-    private int nextPlaylistIndex = 0; 
+    private int nextPlaylistIndex = 0;
+
     internal EventReference getNextMusicReference()
     {
         if (nextPlaylistIndex >= musicPlaylist.Count - 1)

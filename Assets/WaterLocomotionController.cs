@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class WaterLocomotionController : MonoBehaviour
@@ -6,9 +7,10 @@ public class WaterLocomotionController : MonoBehaviour
     // adjust acceleration, turn, and max speed values as desired
     public float acceleration = 10f;
     public float turn = 5f;
-    public float maxSpeed = 3f;
+    public float maxSpeed = 4f;
 
     private Rigidbody2D rb;
+    private bool movementRestricted;
 
     void Start()
     {
@@ -17,6 +19,10 @@ public class WaterLocomotionController : MonoBehaviour
 
     void FixedUpdate()
     {
+        AudioManager.Instance.SetSwimVelocity(rb.velocity.magnitude);
+
+        if (movementRestricted) return;
+
         float moveHorizontal = 0;
         float moveVertical = 0;
         if (Input.GetKey(KeyCode.W))
@@ -55,5 +61,14 @@ public class WaterLocomotionController : MonoBehaviour
                                                   turn * Time.deltaTime);
             rb.velocity = transform.up * rb.velocity.magnitude;
         }
+    }
+    private void OnDisable()
+    {
+        AudioManager.Instance.SetSwimVelocity(0);
+
+    }
+    internal void setMovementRestriction(bool isRestricted)
+    {
+        movementRestricted = isRestricted;
     }
 }
