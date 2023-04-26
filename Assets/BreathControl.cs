@@ -7,10 +7,10 @@ using MoreMountains.Feedbacks;
 
 public class BreathControl : MonoBehaviour
 {
-    public float currentBreathSeconds = 20;
+    private float currentBreathSeconds = 20;
     public bool isHoldingBreath = false;
     private float breathDecayRate = 1f;
-    private float maxBreathSeconds = 20;
+    public float maxBreathSeconds = 20;
     private float firstWarningTimeDuration = 6f;
     private float lastWarningTimeDuration = 6f;
 

@@ -10,7 +10,7 @@ public class WaterLocomotionController : MonoBehaviour
     public float maxSpeed = 4f;
 
     private Rigidbody2D rb;
-    private bool movementRestricted;
+    public bool isMovementRestricted;
 
     void Start()
     {
@@ -21,7 +21,7 @@ public class WaterLocomotionController : MonoBehaviour
     {
         AudioManager.Instance.SetSwimVelocity(rb.velocity.magnitude);
 
-        if (movementRestricted) return;
+        if (isMovementRestricted) return;
 
         float moveHorizontal = 0;
         float moveVertical = 0;
@@ -62,6 +62,12 @@ public class WaterLocomotionController : MonoBehaviour
             rb.velocity = transform.up * rb.velocity.magnitude;
         }
     }
+
+    public void addBreakForce(float tripForceMagnitude)
+    {
+        rb.velocity /= tripForceMagnitude;
+    }
+
     private void OnDisable()
     {
         AudioManager.Instance.SetSwimVelocity(0);
@@ -69,6 +75,6 @@ public class WaterLocomotionController : MonoBehaviour
     }
     internal void setMovementRestriction(bool isRestricted)
     {
-        movementRestricted = isRestricted;
+        isMovementRestricted = isRestricted;
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,15 +13,25 @@ public class Grapple : MonoBehaviour
     [SerializeField] float grappleForce = 4f;
     [SerializeField] float grappleTurn = 10f;
 
+    private WaterLocomotionController waterController;
     // Start is called before the first frame update
     void Start()
     {
-        
+        waterController = GetComponent<WaterLocomotionController>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        HandleInput();
+        
+    }
+
+    private void HandleInput()
+    {
+        if (waterController.isMovementRestricted) return;
+
+
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mouseWorldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -34,7 +45,8 @@ public class Grapple : MonoBehaviour
                     isGrappled = true;
                 }
             }
-        } else if (Input.GetMouseButton(0))
+        }
+        else if (Input.GetMouseButton(0))
         {
             if (isGrappled)
             {
@@ -51,6 +63,5 @@ public class Grapple : MonoBehaviour
             isGrappled = false;
             lineRenderer.positionCount = 0;
         }
-        
     }
 }
