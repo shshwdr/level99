@@ -13,11 +13,14 @@ public class Grapple : MonoBehaviour
     [SerializeField] float grappleForce = 4f;
     [SerializeField] float grappleTurn = 10f;
 
+    DistanceJoint2D distanceJoint;
+
     private WaterLocomotionController waterController;
     // Start is called before the first frame update
     void Start()
     {
         waterController = GetComponent<WaterLocomotionController>();
+        distanceJoint = GetComponentInChildren<DistanceJoint2D>();
     }
 
     // Update is called once per frame
@@ -43,6 +46,9 @@ public class Grapple : MonoBehaviour
                 {
                     grapplePoint = hit.point;
                     isGrappled = true;
+                    distanceJoint.enabled = true;
+                    distanceJoint.transform.position = hit.point;
+                    //distanceJoint.distance = (hit.point - new Vector2(grappleOrigin.position.x, grappleOrigin.position.y)).magnitude;
                 }
             }
         }
@@ -62,6 +68,8 @@ public class Grapple : MonoBehaviour
         {
             isGrappled = false;
             lineRenderer.positionCount = 0;
+            distanceJoint.enabled = false;
+
         }
     }
 }
