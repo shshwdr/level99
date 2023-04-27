@@ -10802,7 +10802,7 @@ DistanceJoint2D:
   m_ConnectedAnchor: {x: 0, y: 0}
   m_AutoConfigureDistance: 1
   m_Distance: 0.005
-  m_MaxDistanceOnly: 0
+  m_MaxDistanceOnly: 1
 --- !u!50 &1696739639
 Rigidbody2D:
   serializedVersion: 4
