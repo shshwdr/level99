@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Grapple : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class Grapple : MonoBehaviour
     [SerializeField] float grappleForce = 4f;
     [SerializeField] float grappleTurn = 10f;
 
-    [SerializeField] private DistanceJoint2D distanceJoint;
+    [FormerlySerializedAs("joint")] [FormerlySerializedAs("distanceJoint")] [SerializeField] private DistanceJoint2D grappleJoint;
 
     private WaterLocomotionController waterController;
     // Start is called before the first frame update
@@ -33,7 +34,6 @@ public class Grapple : MonoBehaviour
     {
         if (waterController.isMovementRestricted) return;
 
-
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mouseWorldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -45,8 +45,8 @@ public class Grapple : MonoBehaviour
                 {
                     grapplePoint = hit.point;
                     isGrappled = true;
-                    distanceJoint.enabled = true;
-                    distanceJoint.transform.position = hit.point;
+                    grappleJoint.enabled = true;
+                    grappleJoint.transform.position = hit.point;
                     //distanceJoint.distance = (hit.point - new Vector2(grappleOrigin.position.x, grappleOrigin.position.y)).magnitude;
                 }
             }
@@ -57,7 +57,12 @@ public class Grapple : MonoBehaviour
             {
                 lineRenderer.SetPositions(new[] { grappleOrigin.position, grapplePoint });
                 lineRenderer.positionCount = 2;
-                rigidbody2D.AddForce((grapplePoint - grappleOrigin.position).normalized * grappleForce * Time.deltaTime, ForceMode2D.Impulse);
+                
+                Debug.Log($"Reaction Force: {grappleJoint.reactionForce.magnitude}");
+                if (grappleJoint.reactionForce.magnitude <= 0)
+                {
+                    rigidbody2D.AddForce(grappleForce * Time.deltaTime *(grapplePoint - grappleOrigin.position).normalized, ForceMode2D.Impulse);
+                }
                 /*transform.rotation = Quaternion.Slerp(transform.rotation,
                                                   Quaternion.LookRotation(Vector3.forward, grapplePoint),
                                                   grappleTurn * Time.deltaTime);*/
@@ -67,7 +72,7 @@ public class Grapple : MonoBehaviour
         {
             isGrappled = false;
             lineRenderer.positionCount = 0;
-            distanceJoint.enabled = false;
+            grappleJoint.enabled = false;
 
         }
     }
