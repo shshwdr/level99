@@ -34,45 +34,31 @@ public class WaterLocomotionController : MonoBehaviour
         // rotate based on movement direction
         if (movement != Vector2.zero)
         {
-            if (grappleJoint.reactionForce.magnitude > 0)
+            float grappleForce = grappleJoint.reactionForce.magnitude;
+            if (grappleForce > 0)
             {
                 _isGrappleTight = true;
-                //Debug.Log($"GRAAAAPPPLLLLEE - {grappleJoint.reactionForce.magnitude}");
                 Vector3 crossProduct =
                     Vector3.Cross(movement, grappleJoint.transform.position - transform.position);
-                bool isClockwise = crossProduct.z < 0;
-                float isClockwiseModifier = 1;
-                if (!isClockwise) isClockwiseModifier = -1;
-                /*Debug.Log($"Movement: {movement}");
-                Debug.Log($"Grapple Direction: {grappleJoint.transform.position - transform.position}");
-                Debug.Log($"Cross: {crossProduct}");
-                Debug.Log($"Clockwise: {isClockwise}");*/
+                float isClockwiseModifier = crossProduct.z < 0 ? 1 : -1;
+                
                 transform.rotation = Quaternion.Slerp(transform.rotation,
                     Quaternion.LookRotation(Vector3.forward,  Vector2.Perpendicular(grappleJoint.transform.position - transform.position) * isClockwiseModifier),
                     turn * Time.deltaTime);
-                //w_rb.velocity = transform.up * _rb.velocity.magnitude;
             }
             else
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation,
                     Quaternion.LookRotation(Vector3.forward, movement),
                     turn * Time.deltaTime);
-            
+
                 _rb.velocity = transform.up * _rb.velocity.magnitude;
-                
+
                 //set grapple max speed when we do grapple
                 _grappleTightMaxSpeed = _rb.velocity.magnitude;
                 Debug.Log($"Grapple max{_grappleTightMaxSpeed}");
                 _isGrappleTight = false;
-
             }
-            /*transform.rotation = Quaternion.Slerp(transform.rotation,
-                Quaternion.LookRotation(Vector3.forward, movement),
-                turn * Time.deltaTime);*/
-            
-            
-            //_rb.velocity = transform.up * _rb.velocity.magnitude;
-            
         }
     }
 
