@@ -7,12 +7,12 @@ using MoreMountains.Feedbacks;
 
 public class BreathControl : MonoBehaviour
 {
-    private float currentBreathSeconds = 20;
+    private float _currentBreathSeconds = 20;
     public bool isHoldingBreath = false;
-    private float breathDecayRate = 1f;
+    private float _breathDecayRate = 1f;
     public float maxBreathSeconds = 20;
-    private float firstWarningTimeDuration = 6f;
-    private float lastWarningTimeDuration = 6f;
+    private float _firstWarningTimeDuration = 6f;
+    private float _lastWarningTimeDuration = 6f;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +29,7 @@ public class BreathControl : MonoBehaviour
         }
 
 
-        if (currentBreathSeconds < 0)
+        if (_currentBreathSeconds < 0)
         {
             Die();
         }
@@ -59,9 +59,9 @@ public class BreathControl : MonoBehaviour
 
     private void ResetBreath()
     {
-        currentBreathSeconds = maxBreathSeconds;
-        isFirstWarningGiven = false;
-        isLastWarningGiven = false;
+        _currentBreathSeconds = maxBreathSeconds;
+        _isFirstWarningGiven = false;
+        _isLastWarningGiven = false;
         GetComponent<MMF_Player>().StopFeedbacks();
     }
 
@@ -70,22 +70,22 @@ public class BreathControl : MonoBehaviour
         throw new NotImplementedException();
     }
 
-    bool isFirstWarningGiven = false;
-    bool isLastWarningGiven = false;
+    bool _isFirstWarningGiven = false;
+    bool _isLastWarningGiven = false;
     private void HandleHoldBreathUpdate()
     {
-        currentBreathSeconds -= breathDecayRate * Time.deltaTime;
+        _currentBreathSeconds -= _breathDecayRate * Time.deltaTime;
         //Debug.Log($"Breath: {currentBreathSeconds}");
-        if (!isFirstWarningGiven && currentBreathSeconds < (lastWarningTimeDuration + firstWarningTimeDuration))
+        if (!_isFirstWarningGiven && _currentBreathSeconds < (_lastWarningTimeDuration + _firstWarningTimeDuration))
         {
-            isFirstWarningGiven = true;
+            _isFirstWarningGiven = true;
             Debug.Log("I should hurry");
             AudioManager.Instance.SetUrgency(50);
 
         }
-        else if(!isLastWarningGiven && currentBreathSeconds < lastWarningTimeDuration)
+        else if(!_isLastWarningGiven && _currentBreathSeconds < _lastWarningTimeDuration)
         {
-            isLastWarningGiven = true;
+            _isLastWarningGiven = true;
             Debug.Log("Prolly gonna die soon.");
             AudioManager.Instance.SetUrgency(75);
             GetComponent<MMF_Player>().PlayFeedbacks();
@@ -93,12 +93,12 @@ public class BreathControl : MonoBehaviour
         }
     }
 
-    internal void startBreathHold()
+    internal void StartBreathHold()
     {
         isHoldingBreath = true;
     }
 
-    internal void stopBreathHold()
+    internal void StopBreathHold()
     {
         isHoldingBreath = false;
         ResetBreath();

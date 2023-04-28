@@ -13,14 +13,13 @@ public class Grapple : MonoBehaviour
     [SerializeField] float grappleForce = 4f;
     [SerializeField] float grappleTurn = 10f;
 
-    DistanceJoint2D distanceJoint;
+    [SerializeField] private DistanceJoint2D distanceJoint;
 
     private WaterLocomotionController waterController;
     // Start is called before the first frame update
     void Start()
     {
         waterController = GetComponent<WaterLocomotionController>();
-        distanceJoint = GetComponentInChildren<DistanceJoint2D>();
     }
 
     // Update is called once per frame
