@@ -58,7 +58,7 @@ public class Grapple : MonoBehaviour
                 lineRenderer.SetPositions(new[] { grappleOrigin.position, grapplePoint });
                 lineRenderer.positionCount = 2;
                 
-                Debug.Log($"Reaction Force: {grappleJoint.reactionForce.magnitude}");
+                //Debug.Log($"Reaction Force: {grappleJoint.reactionForce.magnitude}");
                 if (grappleJoint.reactionForce.magnitude <= 0)
                 {
                     rigidbody2D.AddForce(grappleForce * Time.deltaTime *(grapplePoint - grappleOrigin.position).normalized, ForceMode2D.Impulse);

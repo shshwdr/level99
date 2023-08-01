@@ -25,7 +25,7 @@ public class WaterTrippable : MonoBehaviour
     IEnumerator HandleTrip(float tripLengthSeconds, float tripForceMagnitude)
     {
         waterController.setMovementRestriction(true);
-        waterController.addBreakForce(tripForceMagnitude);
+        waterController.AddStoppingForce(tripForceMagnitude);
         animator.Play("water_trip");
 
         yield return new WaitForSeconds(tripLengthSeconds);

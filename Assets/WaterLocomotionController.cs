@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -34,14 +35,21 @@ public class WaterLocomotionController : MonoBehaviour
         // rotate based on movement direction
         if (movement != Vector2.zero)
         {
-            float grappleForce = grappleJoint.reactionForce.magnitude;
-            if (grappleForce > 0)
+            float movementDotProduct = Vector3.Dot(_rb.velocity.normalized, movement.normalized);
+            bool isContraryMotion = movementDotProduct > 0.0f;
+            Debug.Log($"Movement Dot: {movementDotProduct}");
+            
+            bool grappleForceActivated = grappleJoint.reactionForce.magnitude > 0;
+            if (grappleForceActivated)
             {
                 _isGrappleTight = true;
+                
+                if (!isContraryMotion) return;
+
                 Vector3 crossProduct =
                     Vector3.Cross(movement, grappleJoint.transform.position - transform.position);
                 float isClockwiseModifier = crossProduct.z < 0 ? 1 : -1;
-                
+                //Debug.Log($"cross: {crossProduct}");
                 transform.rotation = Quaternion.Slerp(transform.rotation,
                     Quaternion.LookRotation(Vector3.forward,  Vector2.Perpendicular(grappleJoint.transform.position - transform.position) * isClockwiseModifier),
                     turn * Time.deltaTime);
@@ -56,7 +64,7 @@ public class WaterLocomotionController : MonoBehaviour
 
                 //set grapple max speed when we do grapple
                 _grappleTightMaxSpeed = _rb.velocity.magnitude;
-                Debug.Log($"Grapple max{_grappleTightMaxSpeed}");
+                //Debug.Log($"Grapple max{_grappleTightMaxSpeed}");
                 _isGrappleTight = false;
             }
         }
@@ -91,7 +99,7 @@ public class WaterLocomotionController : MonoBehaviour
         }*/
     }
 
-    public void addBreakForce(float tripForceMagnitude)
+    public void AddStoppingForce(float tripForceMagnitude)
     {
         _rb.velocity /= tripForceMagnitude;
     }
